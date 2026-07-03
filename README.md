@@ -51,6 +51,11 @@ python app.py
 На Vercel используется `api/index.py`.
 
 
-## v14 fix
+## v15 fix
 
 Confirmation requests are answered before secret-key validation, so VK Callback API server confirmation works even before the secret is saved by VK.
+
+
+## v15
+
+Исправлено подключение к Supabase/asyncpg: параметр `sslmode=require` больше не передаётся напрямую в `asyncpg.connect()`, вместо этого используется `ssl=True`.
