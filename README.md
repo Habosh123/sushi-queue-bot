@@ -49,3 +49,8 @@ python app.py
 ```
 
 На Vercel используется `api/index.py`.
+
+
+## v14 fix
+
+Confirmation requests are answered before secret-key validation, so VK Callback API server confirmation works even before the secret is saved by VK.

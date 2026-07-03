@@ -238,15 +238,18 @@ class handler(BaseHTTPRequestHandler):
             self._send_text("bad request", status=400)
             return
 
+        # VK confirmation requests must be answered with the confirmation code
+        # before any secret-key validation. On the first server confirmation VK
+        # may not send the secret yet, or the secret may not be saved in VK UI.
+        if data.get("type") == "confirmation":
+            self._send_text(VK_CONFIRMATION_CODE)
+            return
+
         if VK_SECRET_KEY:
             secret = str(data.get("secret") or "")
             if secret != VK_SECRET_KEY:
                 self._send_text("forbidden", status=403)
                 return
-
-        if data.get("type") == "confirmation":
-            self._send_text(VK_CONFIRMATION_CODE)
-            return
 
         try:
             result = asyncio.run(process_callback(data))
